@@ -71,16 +71,33 @@ Promise.all([
     });
 
     draw(d3.select('#cpu_percent'),cpu_percent,100);
+
+    // running time
+    let cpu_time = data.map(d=>{
+        let temp = {algorithm:d.key};
+        d.value['cpu_times'].forEach(e=>{
+            if(!e.key.includes('children'))
+            temp[e.key] = e.value;
+        });
+        return temp;
+    });
+    sums = {algorithm:'stack umap and isomap'};
+    d3.keys(cpu_time[1]).forEach(k=>{
+        if (k!=='algorithm')
+            sums[k] = cpu_time[1][k]+cpu_time[0][k]
+    })
+    cpu_time.push(sums)
+    draw(d3.select('#cpu_time'),cpu_time);
     console.log(data)
 });
 d3.csv('umap_measure.csv').then(d=>(data['umap'] = fixData(d)))
 
 function fixData(d){
-    d.forEach(e=>e.cpu_times = e.cpu_times.split('(')[1].split(')')[0].split(',').map(e=>(f=e.split('='),{key:f[0].trim(),value:[f[1][0]]})))
+    d.forEach(e=>e.cpu_times = e.cpu_times.split('(')[1].split(')')[0].split(',').map(e=>(f=e.split('='),{key:f[0].trim(),value:[+f[1]]})))
     let temp = {};
     let lastIndex = d.length-1;
     temp['memory'] = memoryList.map(e=>({key:e,value:e.includes('peak')?+d[lastIndex][e]: +d[lastIndex][e]- +d[0][e]}));
-    temp['cpu_times'] = d[0].cpu_times.map((e,ei)=>({key:e.key, value: +d[lastIndex].cpu_times[ei].value- +d[0].cpu_times[ei].value}));
+    temp['cpu_times'] = d[0].cpu_times.map((e,ei)=>({key:e.key, value: d[lastIndex].cpu_times[ei].value[0]- d[0].cpu_times[ei].value[0]}));
     temp['cpu_percent'] = [{key:'cpu_percent',value:+d[lastIndex].cpu_percent- +d[0].cpu_percent}];
     return temp;
 }

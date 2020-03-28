@@ -24,6 +24,7 @@ I use jupiternote for write python code. These files can be found in this direct
 
 ## Results
 
+For eliminate the time for import data and library, I record the profiling data twice (before and after running algorithms). Lateron, I subtract the data (not the peak data) to get the actual value during running code.
 The profiling datas have been save as csv:
 - Umap: umap_measure.csv
 - Isomap: isomap_measure.csv

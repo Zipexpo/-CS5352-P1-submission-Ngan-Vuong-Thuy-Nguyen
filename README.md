@@ -39,3 +39,5 @@ In my visualization. The "asynchronous" mean running UMAP and ISOMAP in differen
 ![Page fault](img/pagefault.PNG)
 
 ![CPU percentage](img/cpupercentage.PNG)
+
+In overrall, UMAP has produce more efficently than ISOMAP interm of memory and running time. When running both umap and isomap in different thread, it is still less costly than running both algorithm sequently.

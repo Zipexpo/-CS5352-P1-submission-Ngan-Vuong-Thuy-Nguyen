@@ -5,6 +5,7 @@ Promise.all([
     d3.csv('isomap_measure.csv'),
     d3.csv('umap_isomap_measure.csv')
 ]).then(([umapd,isomap_d,both_d])=>{
+    console.log(umapd)
     data = [
         {key:'umap',value:fixData(umapd)},
         {key:'isomap',value:fixData(isomap_d)},
@@ -70,8 +71,23 @@ Promise.all([
         return temp;
     });
 
-    draw(d3.select('#cpu_percent'),cpu_percent,100);
-
+    draw(d3.select('#cpu_percent'),cpu_percent,90);
+    // io
+    let io = data.map(d=>{
+        let temp = {algorithm:d.key};
+        d.value['io'].forEach(e=>{
+            if(!e.key.includes('children'))
+                temp[e.key] = e.value;
+        });
+        return temp;
+    });
+    sums = {algorithm:'stack umap and isomap'};
+    d3.keys(io[1]).forEach(k=>{
+        if (k!=='algorithm')
+            sums[k] = io[1][k]+io[0][k]
+    })
+    io.push(sums)
+    draw(d3.select('#io'),io);
     // running time
     let cpu_time = data.map(d=>{
         let temp = {algorithm:d.key};
@@ -99,6 +115,7 @@ function fixData(d){
     temp['memory'] = memoryList.map(e=>({key:e,value:e.includes('peak')?+d[lastIndex][e]: +d[lastIndex][e]- +d[0][e]}));
     temp['cpu_times'] = d[0].cpu_times.map((e,ei)=>({key:e.key, value: d[lastIndex].cpu_times[ei].value[0]- d[0].cpu_times[ei].value[0]}));
     temp['cpu_percent'] = [{key:'cpu_percent',value:+d[lastIndex].cpu_percent- +d[0].cpu_percent}];
+    temp['io'] = [{key:'read_bytes',value:+d[lastIndex].read_bytes- +d[0].read_bytes},{key:'write_bytes',value:+d[lastIndex].write_bytes- +d[0].write_bytes}];
     return temp;
 }
 

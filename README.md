@@ -32,12 +32,22 @@ The profiling datas have been save as csv:
 Then I use js and d3js libary to plot the result [index.html](index.html)
 In my visualization. The "asynchronous" mean running UMAP and ISOMAP in different thread and "stack umap and isomap" is the sum up of the umap and isomap results.
 
+CPU usage in percentage:
+
+![CPU percentage](img/cpupercentage.PNG)
+
+Memory usage RSS and VMS:
+
 ![Memory result1](img/Memory_1.PNG)
 
 ![Memory result2](img/Memory_2.PNG)
 
+Number of page faults:
+
 ![Page fault](img/pagefault.PNG)
 
-![CPU percentage](img/cpupercentage.PNG)
+Hard drive usage in term of write and read bytes:
+![Hard drive usage](img/io.PNG)
+
 
 In overrall, UMAP has produce more efficently than ISOMAP interm of memory and running time. When running both umap and isomap in different thread, it is still less costly than running both algorithm sequently.

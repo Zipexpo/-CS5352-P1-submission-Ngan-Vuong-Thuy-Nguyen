@@ -50,4 +50,6 @@ Hard drive usage in term of write and read bytes:
 ![Hard drive usage](img/io.PNG)
 
 
-In overrall, UMAP has produce more efficently than ISOMAP interm of memory and running time. When running both umap and isomap in different thread, it is still less costly than running both algorithm sequently.
+In overrall, UMAP has produce more efficently than ISOMAP interm of memory and running time. When running both umap and isomap in different thread, it is still less costly than running both algorithm sequently. For some reasons, the running time of "asynchronous" longer than synchronous.
+
+![Hard drive usage](img/runningTime.PNG)

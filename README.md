@@ -22,6 +22,8 @@ I use jupiternote for write python code. These files can be found in this direct
 - project1_isomap.ipynb : running ISOMAP
 - project1_bothAlgorithm.ipynb : running UMAP and ISOMAP in different thread
 
+Please note that all measurement in this project may not avialable in Mac OS. I used Windown for collect those data
+
 ## Results
 
 For eliminate the time for import data and library, I record the profiling data twice (before and after running algorithms). Lateron, I subtract the data (not the peak data) to get the actual value during running code.
